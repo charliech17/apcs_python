@@ -1,57 +1,44 @@
 def main():
-    # n: 寶盒數, m: 共有m種鑰匙,k: 每個寶盒需要的鑰匙數量
+    # n: 寶盒數, m: 共有m種鑰匙, k: 每個寶盒需要的鑰匙數量
     n,m,k = [int(item) for item in input().split(" ")]
     # t: 一開始有的鑰匙數量, own_keys: 擁有的鑰匙
-    t,*own_keys = [int(item) for item in input().split(" ")]
-    own_keys = set(own_keys)
+    own_keys = [int(item) for item in input().split(" ")][1:]
 
-    boxs_info = [] # {"is_open": False,"to_open_key": []}
-    
-    # 開啟所需的鑰匙
-    for _ in range(n):
-        each_open_info = [int(item) for item in input().split(" ")]
-        new_open_set = set(each_open_info)
-        if new_open_set.issubset(own_keys):
-            info = {"is_open": True,"to_open_key": ""}
-            boxs_info.append(info)
-        else:
-            rest_to_open = new_open_set - own_keys # 差集
-            info = {"is_open": False,"to_open_key": rest_to_open}
-            boxs_info.append(info)
+    key_boxs = [[] for _ in range(m)] # 鑰匙對應可開的寶箱 O(m)
+    get_keys = [[] for _ in range(n)] # 打開寶箱得到的鑰匙 O(n)
 
-    # 開啟寶箱後得到的鑰匙
-    not_open_keys = [] # [{"to_open_key": set,"get_key": set}]
-    i = 0
+    # 開啟所需的鑰匙 O(n)
+    for i in range(n):
+        box_open_key = [int(item) for item in input().split(" ")]
+        for key in box_open_key:
+            key_boxs[key].append(i)
+
+    # 開啟寶箱後得到的鑰匙 O(n)
+    for i in range(n):
+        box_get_key = [int(item) for item in input().split(" ")]
+        get_keys[i] = box_get_key
+
+    # 寶箱是否訪問過 O(m)
+    is_key_visit = [False for _ in range(m)]
+    for my_key in own_keys:
+        is_key_visit[my_key] = True
+
+    # 記錄訪問次數 O(n)
+    box_open_times = [k for _ in range(n)]
     total = 0
-    while i < len(boxs_info):
-        each_get_info = [int(item) for item in input().split(" ")]
-        new_get_set = set(each_get_info)
-
-        if boxs_info[i]["is_open"] or boxs_info[i]["to_open_key"].issubset(own_keys):
-        # 箱子是打開狀況: 1. 累加 2. 更新擁有的鑰匙
-            total += 1
-            own_keys = new_get_set | own_keys
-            j = len(not_open_keys) - 1
-            while j >= 0:
-                is_open = not_open_keys[j]["to_open_key"].issubset(own_keys)
-                if is_open:
-                    own_keys = not_open_keys[j]["get_key"] | own_keys
-                    total += 1
-                    not_open_keys.pop(j)
-                    j = len(not_open_keys) - 1
-                else:
-                    new_to_open_key = not_open_keys[j]["to_open_key"] - own_keys
-                    not_open_keys[j]["to_open_key"] = new_to_open_key
-                    j -=1
-
-        else:
-        # 箱子非打開狀況: 
-            to_open_key = boxs_info[i]["to_open_key"] - own_keys
-            un_open_info = {"to_open_key": to_open_key,"get_key": set(new_get_set)}
-            not_open_keys.append(un_open_info)
-
-        i += 1
-
+    while own_keys:
+        my_key = own_keys.pop()
+        for can_open_box in key_boxs[my_key]:
+            box_open_times[can_open_box] -= 1
+            if box_open_times[can_open_box] == 0:
+                total += 1
+                for get_new_key in get_keys[can_open_box]:
+                    if is_key_visit[get_new_key] == False:
+                        is_key_visit[get_new_key] = True
+                        own_keys.append(get_new_key)
+                # end for
+        # end for
+    
     # 結果
     print(total)
 
