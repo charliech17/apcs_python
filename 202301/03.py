@@ -3,7 +3,7 @@ all_ops = "+*"
 end_f = ',)'
 
 def main():
-    cal_eq = "f(2+5*f(8,1+2*3))"#input()
+    cal_eq = input()
     len_cal_eq = len(cal_eq)
     i = 0
     now_f_num = []
