@@ -16,7 +16,7 @@ def main():
         item_total = pow(item_attack,2) + pow(item_defense,2)
 
         if item_total > first[2]:
-            second = copy.copy(first)
+            second = [*first] #copy.copy(first)
             first = [item_attack,item_defense,item_total]
         elif item_total > second[2]:
             second = [item_attack,item_defense,item_total]
