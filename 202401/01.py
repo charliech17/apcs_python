@@ -1,4 +1,3 @@
-import copy
 # 能力值是攻擊力和防禦力的平方和
 def main():
     n = int(input())
@@ -16,7 +15,7 @@ def main():
         item_total = pow(item_attack,2) + pow(item_defense,2)
 
         if item_total > first[2]:
-            second = [*first] #copy.copy(first)
+            second = first #copy.copy(first)
             first = [item_attack,item_defense,item_total]
         elif item_total > second[2]:
             second = [item_attack,item_defense,item_total]
