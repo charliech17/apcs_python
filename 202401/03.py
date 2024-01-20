@@ -1,3 +1,5 @@
+# 程式碼來源: https://hackmd.io/eBZhK7HgSVa0AmAuD_VZxQ
+
 p,q,r,m = [int(x) for x in input().split()]
 n = p+q+r
 data = [0]+[int(x) for x in input().split()]+[0]*(q+r)
