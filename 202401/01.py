@@ -23,4 +23,14 @@ def main():
     sec_attk,sec_def,_ = second
     print(sec_attk,sec_def)
 
+def main():
+    n = int(input())
+    info = []
+    for _ in range(n):
+        a,d = [int(i) for i in input().split(" ")]
+        info.append([a,d,a**2+d**2])
+    
+    a_sec, d_sec, _= sorted(info,key=lambda x: x[2])[-2]
+    print(a_sec, d_sec)
+
 main()
