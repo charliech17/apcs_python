@@ -19,5 +19,4 @@ def cost(i,j): # min cost of [i,j]
 memo = [[-1]*n for i in range(n)]
 for i in range(n): memo[i][i] = 0
 ans = cost(0,n-1)
-print(memo)
 print(ans)
