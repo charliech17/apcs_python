@@ -1,24 +1,19 @@
 n = int(input())
-h_list = [int(i) for i in input().split()]
+building_height = [int(i) for i in input().split()]
 max_continue = 1
-final_index = n-1
 
-for b_index,each_b_h in enumerate(h_list):
-    # init some values
-    temp_max_continue = 1
-    now_b_h = each_b_h
+for i in range(n):
+    prev_b_h = building_height[i]
+    temp_continue = 1
+
+    for j in range(i+1,n):
+        if prev_b_h > building_height[j]:
+            prev_b_h = building_height[j]
+            temp_continue += 1
+        else:
+            break
     
-    # will calculate if not final index
-    if b_index != final_index:
-        for j in range(b_index+1,final_index+1):
-            if now_b_h > h_list[j]:
-                temp_max_continue += 1
-                now_b_h = h_list[j]
-            else:
-                break
-
-    # if temp > final, set final to temp
-    if temp_max_continue > max_continue:
-        max_continue = temp_max_continue
+    if temp_continue > max_continue:
+        max_continue = temp_continue
 
 print(max_continue)
